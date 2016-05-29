@@ -17,6 +17,10 @@ class Customer
     puts "No customer found."
   end
 
+  def purchase(product)
+    Transaction.new(customer: self, product: product)
+  end
+
   private
 
   def add_to_customers
