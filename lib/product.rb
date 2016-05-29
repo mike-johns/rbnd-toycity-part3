@@ -16,7 +16,7 @@ class Product
 
   def self.find_by_title(search_title)
     @@products.each {|product| product.title == search_title ? (return product) : nil}
-    puts "Nothing found"
+    puts "No product found."
   end
 
   def self.in_stock
