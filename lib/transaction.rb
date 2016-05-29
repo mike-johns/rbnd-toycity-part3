@@ -31,5 +31,4 @@ class Transaction
     @product
   end
 
-
 end
