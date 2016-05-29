@@ -5,11 +5,11 @@ class Transaction
 
   @@id = 1
 
-  def initialize(options = {})
-    @id = @@id
-    @customer = options[:customer]
-    @product = options[:product]
+  def initialize(customer, product)
+    @customer = customer
+    @product = product
     @product.stock -= 1
+    @id = @@id
     @@id += 1
   end
 
