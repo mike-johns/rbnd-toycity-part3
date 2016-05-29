@@ -18,7 +18,7 @@ class Customer
   end
 
   def purchase(product)
-    Transaction.new(customer: self, product: product)
+    Transaction.new(self, product)
   end
 
   private
