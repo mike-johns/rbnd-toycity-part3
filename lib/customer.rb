@@ -14,7 +14,7 @@ class Customer
 
   def self.find_by_name(search_name)
     @@customers.each {|customer| customer.name == search_name ? (return customer) : nil}
-    puts "No customer found."
+    puts "Sorry, no results for '#{search_name}'"
   end
 
   def purchase(product)
