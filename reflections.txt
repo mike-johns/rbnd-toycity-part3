@@ -1,13 +1,19 @@
 How long did you spend working on this project?
 
-
+I probably spent a day and a half on this project, but the hours were widely spread out.
 
 What was the most rewarding challenge you conquered?
 
-
+I would say that the most rewarding challenge that I conquered wasn't directly related to the requirements. My biggest victory with this project was returning to it after a couple exceptionally busy and stressful weeks at work and finishing it well. On top of that, I'm really excited to move on to the next lesson.
 
 What two additional features did you build? Why?
 
+The first feature that I added was a #find_all method in the Transaction class. This will return an Array of any Transactions involving the same Customer and Product. This would really come in handy if you were trying to analyze repeat business for marketing insights. This method also accepts arguments as either a Customer and Product object, or Name and Title strings, respectively.
 
+The second feature is a #return method in the Customer class. I felt like this was a clearly useful feature for an inventory system, and I think that I came up with a good way to do it. It uses the first new feature to search through any Transactions involving the current Customer and Product, and marks the first Transaction result from the search as having been returned (of course, if it hadn't been returned already).
+
+A couple smaller features that I added were simple "puts" error messages in several methods and a @sales Customer attribute that keeps track of that Customer's previous transactions.
 
 Where do you still have room to grow?
+
+There are many Ruby-specific areas that I need to grow in, like familiarity with private method use cases, and more experience with hashes (especially when passed into a method as options). Code aside, I'm still growing in my ability to stay focused and make progress on a week-to-week basis, instead of following interest or energy and making short bursts of progress.
