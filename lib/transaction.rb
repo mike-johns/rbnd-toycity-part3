@@ -1,5 +1,6 @@
 class Transaction
   attr_reader :id, :customer, :product
+  attr_accessor :returned
 
   @@transactions = []
 
@@ -9,9 +10,11 @@ class Transaction
     @customer = customer
     @product = product
     @product.stock -= 1
+    @returned = false
     @id = @@id
     @@transactions << self
     @@id += 1
+    customer.sales += 1
   end
 
   def self.all
@@ -25,6 +28,14 @@ class Transaction
     else
       puts "Oops - it looks like you used a #{id.class}. Try again with a number."
     end
+  end
+
+  def self.find_all(customer: customer, product: product)
+    result = []
+    customer.class != Customer ? (customer = Customer.find_by_name(customer)) : nil
+    product.class != Product ? (product = Product.find_by_title(product)) : nil
+    @@transactions.each {|transaction| (transaction.customer == customer && transaction.product == product) ? (result << transaction) : nil}
+    result != [] ? (return result) : (puts "Sorry, no transaction record found.")
   end
 
   def customer

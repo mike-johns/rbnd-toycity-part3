@@ -1,10 +1,12 @@
 class Customer
   attr_reader :name
+  attr_accessor :sales
 
   @@customers = []
 
   def initialize(options = {})
     @name = options[:name]
+    @sales = 0
     add_to_customers
   end
 
@@ -19,6 +21,18 @@ class Customer
 
   def purchase(product)
     product.stock > 0 ? Transaction.new(self, product) : raise(OutOfStockError, "'#{product.title}' is out of stock.")
+  end
+
+  def return(product)
+    result = Transaction.find_all(customer: self, product: product)
+    result.each do |transaction|
+      if transaction.returned == false
+        transaction.returned = true
+        transaction.product.stock += 1
+        puts "#{transaction.product.title} has been successfully returned (ID: #{transaction.id})"
+        return true
+      end
+    end
   end
 
   private
