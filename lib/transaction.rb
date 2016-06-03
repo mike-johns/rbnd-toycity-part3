@@ -7,14 +7,14 @@ class Transaction
   @@id = 1
 
   def initialize(customer, product)
-    @customer = customer
-    @product = product
-    @product.stock -= 1
+    customer.class != Customer ? (@customer = Customer.find_by_name(customer)) : @customer = customer
+    product.class != Product ? (@product = Product.find_by_title(product)) : @product = product
+    validate_transaction
+    add_to_transactions
     @returned = false
     @id = @@id
-    @@transactions << self
+    @customer.sales += 1
     @@id += 1
-    customer.sales += 1
   end
 
   def self.all
@@ -22,20 +22,13 @@ class Transaction
   end
 
   def self.find(id)
-    if id.class == Fixnum
-      @@transactions.each {|transaction| transaction.id == id ? (return transaction) : nil}
-      puts "Sorry, no transaction found with an ID of #{id}"
-    else
-      puts "Oops - it looks like you used a #{id.class}. Try again with a number."
-    end
+    @@transactions.find {|transaction| transaction.id == id}
   end
 
   def self.find_all(customer: customer, product: product)
-    result = []
     customer.class != Customer ? (customer = Customer.find_by_name(customer)) : nil
     product.class != Product ? (product = Product.find_by_title(product)) : nil
-    @@transactions.each {|transaction| (transaction.customer == customer && transaction.product == product) ? (result << transaction) : nil}
-    result != [] ? (return result) : (puts "Sorry, no transaction record found.")
+    @@transactions.find_all {|transaction| (transaction.customer == customer && transaction.product == product)}
   end
 
   def customer
@@ -44,6 +37,16 @@ class Transaction
 
   def product
     @product
+  end
+
+  private
+
+  def validate_transaction
+    @product.stock > 0 ? @product.stock -= 1 : raise(OutOfStockError, "'#{product.title}' is out of stock.")
+  end
+
+  def add_to_transactions
+    @@transactions << self
   end
 
 end

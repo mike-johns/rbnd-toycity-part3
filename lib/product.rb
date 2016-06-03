@@ -17,29 +17,25 @@ class Product
   end
 
   def self.find_by_title(search_title)
-    @@products.each {|product| product.title == search_title ? (return product) : nil}
-    puts "Sorry, no results for '#{search_title}'"
+    @@products.find {|product| product.title == search_title}
   end
 
   def self.in_stock
-    products_in_stock = []
-    @@products.each {|product| (product.stock != 0 && product.stock != nil) ? products_in_stock << product : nil}
-    products_in_stock
+    @@products.find_all {|product| product.stock > 0}
   end
 
   def in_stock?
-    if @stock == 0 || @stock == nil
-      false
-    else
-      true
-    end
+    @stock > 0
   end
 
   private
 
   def add_to_products
-    @@products.each {|product| product.title == @title ? raise(DuplicateProductError, "'#{@title}' already exists.") : nil}
-    @@products << self
+    if @@products.find(-> {false}) {|product| product.title == @title}
+      raise(DuplicateProductError, "'#{@title}' already exists.")
+    else
+      @@products << self
+    end
   end
 
 end
